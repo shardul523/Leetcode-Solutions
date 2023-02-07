@@ -10,8 +10,8 @@
 
 - We perform the same check for all the substrings of s2.
 
-<br>
-<br>
+&nbsp;
+&nbsp;
 
 # Solution
 
@@ -24,23 +24,23 @@ The brute force approach checks for each of the substrings of length k (k = leng
 
 **Space Complexity** : _O(1)_
 
-<br>
+&nbsp;
 
 ## Better Approach (Using sliding window)
 
 Instead of checking for each of the substring again and again, we need to think of the reason we are taking the substrings in the first place - _to count the occurring frequency of each of characters in a given substring_.
 
-<br>
+
 So first let's count the frequencies of the first k characters. This represents the frequency count of the substring starting from index 0.
 
-<br>
+
 Check if the frequency count of the initial window is equal to the frequency count of s1. If found, then return true.
 
-<br>
+
 If not then we slide the window forward by  decrementing the frequency of the character at the beginning of the window, essentially removing it, whilst we take the next character into the sliding window by incrementing it's frequency count.
 
-<br>
+
 Check if this new frequency count is equal to that of string s1. If yes, return true, else repeat the above step all the way until we reach the last character of string s2.
 
-<br>
+
 If no windows ( and hence the substrings ) have a frequency count equal to s1, no permutation of s1 exists in s2. Hence return false.
