@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include "farFromLand.h"
+#include "1162. As Far from Land as Possible/farFromLand.h"
 
 
 int main() {
