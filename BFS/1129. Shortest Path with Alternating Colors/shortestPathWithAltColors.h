@@ -1,5 +1,7 @@
 #include <vector>
 #include <queue>
+#include <set>
+#include <tuple>
 using namespace std;
 
 enum color {
@@ -15,55 +17,53 @@ class Solution {
     vector<int> shortestAlternatingPaths(int n, vector<vector<int>>& redEdges, vector<vector<int>>& blueEdges) {
         
         vector<int> answer(n, -1);
+        set<tuple<int,int,color>> edgesTraversed;
+        vector<vector<pair<int,color>>> adjacencyList(n);
+        queue<pair<int, color>> visit_queue;
 
-        vector<vector<pair<int, color>>> adjacencyList(n);
-        vector<bool> visited(n, false);
-        queue<pair<int, color>> visit_q;
+        for (auto edge: redEdges) {
+            int source = edge[0];
+            int dest = edge[1];
+            adjacencyList[source].push_back({dest, RED});
+        }
 
-        visit_q.push({0, NONE});
+        for (auto edge: blueEdges) {
+            int source = edge[0];
+            int dest = edge[1];
+            adjacencyList[source].push_back({dest, BLUE});
+        }
 
+        visit_queue.push({0, NONE});
 
-        for (auto edge: redEdges) 
-            adjacencyList[edge[0]].push_back({edge[1], RED});
-        
+        int currDist = 0;
 
-        for (auto edge: blueEdges) 
-            adjacencyList[edge[0]].push_back({edge[1], BLUE});
+        while (!visit_queue.empty()) {
 
-        int curr_dist = 0;
-        
-        while (!visit_q.empty()) {
+            int currSize = visit_queue.size();
 
-            int currLevelSize = visit_q.size();
+            for (int i = 0; i < currSize; i++) {
 
-            for (int i = 0; i < currLevelSize; i++) {
+                int currNode = visit_queue.front().first;
+                int currColor = visit_queue.front().second;
+                visit_queue.pop();
 
-                int curr_node = visit_q.front().first;
-                color curr_color = visit_q.front().second;
-                visit_q.pop();
+                answer[currNode] = answer[currNode] == -1 ? currDist : min(answer[currNode], currDist);
 
-                if (visited[curr_node]) continue;
+                for (auto neighbour: adjacencyList[currNode]) {
 
-                visited[curr_node] = true;
-                answer[curr_node] = curr_dist;
+                    tuple<int, int, color> currEdge{currNode, neighbour.first, neighbour.second};
 
-                for (int i = 0; i < adjacencyList[curr_node].size(); i++) {
-                    
-                    int neighbour = adjacencyList[curr_node][i].first;
-                    color neighbour_color = adjacencyList[curr_node][i].second;
-
-                    if (neighbour_color != neighbour_color) 
-                        visit_q.push({neighbour, neighbour_color});
+                    if (currColor != neighbour.second && edgesTraversed.find(currEdge) == edgesTraversed.end()) {
+                        visit_queue.push(neighbour);
+                        edgesTraversed.insert(currEdge);
+                    }
                 }
-
-
             }
 
-            curr_dist++;
+            currDist++;
         }
 
         return answer;
-
     }
 
 };
