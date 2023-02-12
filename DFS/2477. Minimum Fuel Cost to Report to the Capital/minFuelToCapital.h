@@ -1,6 +1,5 @@
 #include <vector>
 #include <functional>
-#include <iostream>
 using namespace std;
 
 class Solution {
@@ -43,7 +42,6 @@ class Solution {
             if (remainingSeats > 0)
                 return remainingSeats - 1;
             else {
-                cout<<"Adding "<<level<<" for node "<<n<<'\n';
                 fuelNeeded += level;
                 return seats - 1;
             }
