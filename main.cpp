@@ -2,7 +2,7 @@
 #include <vector>
 #include <string>
 #include "utility.h"
-#include "BFS/1129. Shortest Path with Alternating Colors/shortestPathWithAltColors.h"
+#include "minFuelToCapital.h"
 using namespace std;
 
 
@@ -10,10 +10,7 @@ int main() {
 
     Solution obj;
     int n = 5;
-    vector<vector<int>> redEdges{{0,1},{1, 2},{2,3},{3,4}};
-    vector<vector<int>> blueEdges{{1,2},{2,3},{3,1}};
-    vector<int> answer = obj.shortestAlternatingPaths(n, redEdges, blueEdges);
-    printList(answer);
+    vector<vector<int>> roads{{0,1},{0,2},{1,3},{1,4}};
+    cout<<"Minimum Fuel Needed: "<<obj.minimumFuelCost(roads, n)<<'\n';
     getchar();
-
 }
